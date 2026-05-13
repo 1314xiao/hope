@@ -1,0 +1,287 @@
+Hope 编程语言的核心语法：
+一、基础语法结构
+1. 变量声明
+hope
+set 变量名 = 值/表达式
+示例：
+
+hope
+set x = 10
+set name = "张三"
+set pi = 3.14
+2. 输出语句
+hope
+show(表达式1, 表达式2, ...)
+示例：
+
+hope
+show("Hello, World!")
+show("x的值是:", x)
+3. 输入语句
+hope
+input("提示文本", 类型)  # 类型：int/str
+示例：
+
+hope
+set age = input("请输入年龄:", int)
+set name = input("请输入姓名:", str)
+4. 条件语句
+hope
+双分支
+if (条件表达式) {
+    // 语句块
+}
+else {
+    // 语句块
+}
+多分支
+
+示例：
+if (条件表达式) {
+    // 语句块
+}
+else {
+    if (条件表达式) {
+    // 语句块
+}
+else {
+    // 语句块
+	}
+}
+hope
+if (x > 10) {
+    show("x大于10")
+}
+else {
+    show("x小于等于10")
+}
+2示例：
+if (x > 10) {
+    show("x大于10")
+} else {
+    if (x > 5) {
+    show("x大于5")
+} else {
+    show("x小于等于5")
+	}
+}
+5. 循环语句
+hope
+loop (条件表达式) {
+    // 循环体
+}
+示例：
+
+hope
+set i = 0
+loop (i < 5) {
+    show(i)
+    set i = i + 1
+}
+二、数据类型
+1. 基本类型
+整数：set a = 100
+
+浮点数：set b = 3.14
+
+字符串：set s = "Hello"
+
+布尔值：通过条件表达式隐式实现
+
+2. 列表（数组）
+hope
+set list1 = [1, 2, 3]
+set list2 = ["a", "b", "c"]
+列表索引：
+
+hope
+set first = list1[0]
+set list1[0] = 100
+3. 常量
+预定义常量：
+
+PI = 3.1415926535
+
+E = 2.7182818284
+
+三、运算符
+1. 算术运算符
+hope
++  -  *  /  %  # 加、减、乘、除、取模
+2. 比较运算符
+hope
+==  >  <  >=  <=
+3. 运算符优先级
+()
+
+* / %
+
++ -
+
+比较运算符
+
+四、函数定义
+1. 函数声明
+hope
+func 函数名(参数1, 参数2, ...) {
+    // 函数体
+    return 返回值
+}
+示例：
+
+hope
+func add(a, b) {
+    return a + b
+}
+
+func greet(name) {
+    show("Hello,", name)
+}
+2. 函数调用
+hope
+set result = add(10, 20)
+greet("张三")
+五、内置函数
+1. 类型转换
+hope
+set s = str(123)      # 整数转字符串
+set i = int("456")     # 字符串转整数
+set f = float("3.14")  # 字符串转浮点数
+2. 数学函数
+hope
+len(值)          # 长度
+max(数值1, 数值2, ...)  # 最大值
+min(数值1, 数值2, ...)  # 最小值
+sum(数值1, 数值2, ...)  # 求和
+3. 序列函数
+hope
+range(结束值)                    # 0到结束值-1
+range(起始值, 结束值)            # 起始值到结束值-1
+range(起始值, 结束值, 步长)      # 带步长的范围
+
+enumerate(列表)                 # 返回(索引, 值)列表
+zip(列表1, 列表2, ...)          # 合并多个列表
+4. 系统函数
+hope
+type(值)        # 返回类型名称
+id(值)         # 返回内存地址
+六、导入模块
+hope
+import 模块名
+示例：
+
+hope
+import random
+import math
+七、注释
+hope
+// 单行注释
+
+/* 
+多行注释
+*/
+八、完整示例
+示例1：计算阶乘
+hope
+// 计算阶乘的函数
+func factorial(n) {
+    if (n == 0) {
+        return 1
+    }
+    set result = 1
+    set i = 1
+    loop (i <= n) {
+        set result = result * i
+        set i = i + 1
+    }
+    return result
+}
+
+// 主程序
+set num = input("请输入一个正整数:", int)
+if (num >= 0) {
+    set fact = factorial(num)
+    show(num, "的阶乘是:", fact)
+}
+else {
+    show("请输入非负整数!")
+}
+示例2：列表操作
+hope
+// 创建列表
+set numbers = [10, 20, 30, 40, 50]
+
+// 遍历列表
+set i = 0
+loop (i < len(numbers)) {
+    show("第", i, "个元素:", numbers[i])
+    set i = i + 1
+}
+
+// 使用range函数
+set indices = range(len(numbers))
+show("索引列表:", indices)
+
+// 求和
+set total = sum(numbers)
+show("总和:", total)
+示例3：猜数字游戏
+hope
+import random
+
+func guess_number() {
+    set secret = randint(1, 100)
+    set attempts = 0
+    set guessed = false
+    
+    show("猜数字游戏开始！范围是1-100")
+    
+    loop (!guessed) {
+        set guess = input("请输入你的猜测:", int)
+        set attempts = attempts + 1
+        
+        if (guess == secret) {
+            show("恭喜！猜对了！")
+            show("你用了", attempts, "次猜中")
+            set guessed = true
+        }
+        else if (guess > secret) {
+            show("太大了！")
+        }
+        else {
+            show("太小了！")
+        }
+    }
+}
+
+guess_number()
+九、语法特点总结
+简洁性：语法类似 JavaScript/Python 的混合
+
+强类型：支持 int、float、str、list 等类型
+
+函数式特性：支持函数作为一等公民
+
+扩展性：可通过 import 导入扩展模块
+
+安全性：内置错误处理机制
+
+交互性：支持 REPL 交互式环境
+
+十、语法注意事项
+变量必须先声明后使用
+
+语句以换行分隔，不需要分号
+
+代码块用花括号 {} 包裹
+
+函数必须有明确的 return 语句
+
+列表索引从 0 开始
+
+字符串用双引号包裹
+
+注释支持单行 // 和多行 /* */
+
+这就是 Hope 语言的核心语法规范。它具有现代编程语言的主要特性，同时保持了简洁性和易用性。
+
