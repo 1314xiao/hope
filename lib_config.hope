@@ -1,0 +1,26 @@
+//lib_config.hope  --Hope扩展映射配置
+//格式：set LIB_MAP=[["库名","模块路径","函数字典名"],...]
+set LIB_MAP = [
+            ["eggs", "hope_eggs", "EGG_FUNCTIONS"],
+            ["random", "hope_random", "RANDOM_FUNCTIONS"],
+            ["math", "hope_math", "MATH_FUNCTIONS"],
+            ["time", "hope_time", "TIME_FUNCTIONS"],
+            ["os", "hope_os", "OS_FUNCTIONS"],
+            ["turtle", "hope_turtle", "TURTLE_FUNCTIONS"],
+            ["urllib", "hope_urllib", "URLLIB_FUNCTIONS"],
+            ["hello", "hope_hello", "EGG_HELLO"],
+            ["fs", "hope_fs", "FS_FUNCTIONS"],
+            ["zip", "hope_zip", "ZIP_FUNCTIONS"],
+            ["sys", "hope_sys", "SYS_FUNCTIONS"],
+            ["cmd", "hope_cmd", "HOPE_CMD_EXPORTS"]
+        ]
+/*
+"eggs": ("hope_eggs", "EGG_FUNCTIONS"),
+"random": ("hope_random", "RANDOM_FUNCTIONS"),
+"math": ("hope_math", "MATH_FUNCTIONS"),
+"time": ("hope_time", "TIME_FUNCTIONS"),
+"os": ("hope_os", "OS_FUNCTIONS"),
+"turtle": ("hope_turtle", "TURTLE_FUNCTIONS"),
+"urllib": ("hope_urllib", "URLLIB_FUNCTIONS"),
+"hello": ("hope_hello", "EGG_HELLO")
+*/
