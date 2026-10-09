@@ -1,6 +1,12 @@
+#!/usr/bin/python
+# _*_ coding: utf-8 _*_
+# @Author: xiao hai
+# @Time: 2025/11/9 18:28
+
 import re
 from typing import Tuple
 from errors import LexerError
+
 
 # Token 类型：三元组 (类型, 值, 行号)
 Token = Tuple[str, str | None, int]
