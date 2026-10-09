@@ -13,18 +13,20 @@ try:
     from parser import Parser
     from interpreter import Interpreter
     from errors import LexerError, ParserError, InterpreterError
+    # ==========仅新增这一行导入SDK模块==========
+    from hope_sdk_server import run_sdk_main
 except ImportError:
     print("错误：同目录下缺少 lexer.py、parser.py、interpreter.py、errors.py 核心文件！")
     sys.exit(1)
 
-HOPE_VERSION = "1.5.1"
+HOPE_VERSION = "1.5.2"
 
 def run_repl():
     """交互式 REPL：逐行执行代码，保持环境"""
     #print("Hope 语言交互环境 (REPL)")
     #print("输入 'exit()' 或 'quit()' 退出")
     #print("注意：多行语句（如函数定义）请写在一行内\n")
-    print(f"Hope {HOPE_VERSION} (tags/v1.5.1:de54cf5, Apr  4 2026, 10:12:12) [py v.2025 64 bit (AMD64)] on win32")
+    print(f"Hope {HOPE_VERSION} (tags/v{HOPE_VERSION}:de54cf5, Apr  4 2026, 10:12:12) [py v.2025 64 bit (AMD64)] on win32")
     print("Please write multi-line statements in a single line")
     print("Type 'exit()' or 'quit()' to exit.")
     # 创建解释器实例，环境会持续保留
@@ -56,6 +58,12 @@ def run_repl():
         except Exception as e:
             print(f"未知错误: {e}")
 
+# 放在hopes.py文件末尾，永远不调用
+def _pyinstaller_embed_tk():
+    import turtle
+    import tkinter
+    import tkinter.ttk
+
 def run_file(file_path):
     """执行 .hope 文件"""
     if not os.path.exists(file_path) or not file_path.endswith('.hope'):
@@ -64,19 +72,22 @@ def run_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as f:
         hope_code = f.read()
     try:
-        print(f"执行 {file_path}...")
+        #print(f"执行 {file_path}...")
         lexer = Lexer(hope_code)
         parser = Parser(lexer)
         interpreter = Interpreter(parser)
         interpreter.run()
-        print("执行完成！")
+        #print("执行完成！")
     except (LexerError, ParserError, InterpreterError) as e:
         print(f"执行错误：{e}")
     except Exception as e:
         print(f"未知错误：{str(e)}")
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        run_repl()
-    else:
+    # ==========仅新增参数分支，其余完全不变==========
+    if "--sdk" in sys.argv:
+        run_sdk_main()
+    elif len(sys.argv) == 2:
         run_file(sys.argv[1])
+    else:
+        run_repl()
