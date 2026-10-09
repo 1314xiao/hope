@@ -10,9 +10,13 @@ set LIB_MAP = [
             ["urllib", "hope_urllib", "URLLIB_FUNCTIONS"],
             ["hello", "hope_hello", "EGG_HELLO"],
             ["fs", "hope_fs", "FS_FUNCTIONS"],
-            ["zip", "hope_zip", "ZIP_FUNCTIONS"],
             ["sys", "hope_sys", "SYS_FUNCTIONS"],
-            ["cmd", "hope_cmd", "HOPE_CMD_EXPORTS"]
+            ["cmd", "hope_cmd", "HOPE_CMD_EXPORTS"],
+	["tkinter", "hope_tkinter", "TKINTER_FUNCTIONS"],
+	["string", "hope_string", "STRING_FUNCTIONS"],
+	["game","hope_game", "HOPE_EXPORT"],
+            ["ctypes","hope_ctypes", "HOPE_CTYPES"],
+	["decide","hope_decide", "HOPE_DECIDE"]
         ]
 /*
 "eggs": ("hope_eggs", "EGG_FUNCTIONS"),
