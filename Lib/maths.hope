@@ -1,0 +1,61 @@
+// 基础运算函数库
+func add(x, y) {
+    return x + y
+}
+func sub(x,y) {
+    return x-y
+}
+func mul(x,y) {
+    return x*y
+}
+func div(x,y) {
+    if (b==0) {
+        show("错误:除数不能为0")
+        return 0
+    }
+    return x/y
+}
+func subtract(x, y) {
+    return x - y
+}
+func multiply(x, y) {
+    return x * y
+}
+func divide(x, y) {
+    return x / y
+}
+func max(a,b) {
+    if (a>b) {
+        return a
+    }
+    return b
+}
+func min(c,d) {
+    if (c<d) {
+        return c
+    }
+    return d
+}
+func abs(num) {
+    if (num < 0) {
+        return -1*num
+    }
+    return num
+}
+//(x+y)*(x+(y*1))
+func calc(x, y) {
+    set sum_val = add(x, y)
+    set diff_val = add(x, multiply(y, 1)) 
+    return multiply(sum_val, diff_val)
+}
+//(a*b+c)
+func calc_three(a, b, c) {
+    set temp = multiply(a, b)
+    return add(temp, c)
+}
+//(w+x)*(y+(z*1))
+func calc_four(w, x, y, z) {
+    set sum = add(w, x)
+    set diff = add(y, multiply(z, 1))
+    return multiply(sum, diff)
+}

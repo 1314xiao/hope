@@ -1,0 +1,41 @@
+//
+func calc_bmi(weight, height) {
+    set e=float(height)
+    set h=e*e
+    set bmi = float(weight) /h
+    return bmi
+}
+//
+func calculate(num1, op, num2) {
+    set result = ""
+    if (op == "+") {
+        set result = str(num1 + num2)
+    } else {
+        if (op == "-") {
+            set result = str(num1 - num2)
+        } else {
+            if (op == "*") {
+                set result = str(num1 * num2)
+            } else {
+                if (op == "/") {
+                    if (num2 == 0) {
+                        set result = "错误：除数不能为0"
+                    } else {
+                        set result = str(num1 / num2)
+                    }
+                } else {
+                    if (op == "%") {
+                        if (num2 == 0) {
+                            set result = "错误：除数不能为0"
+                        } else {
+                            set result = str(num1 % num2)
+                        }
+                    } else {
+                        set result = "错误：无效的运算符"
+                    }
+                }
+            }
+        }
+    }
+    return result
+}

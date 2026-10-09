@@ -1,1 +1,7 @@
+func rf(num) {
+	return round_two(num)
+}
+func rfs(num,val) {
+	return round_custom(num,val)
+}
 
