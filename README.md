@@ -1,4 +1,4 @@
-# Hope‑Lang: 轻量级Python脚本语言
+# Hope‑Lang: 轻量级hope脚本语言
 
 # Hope‑Lang
 
