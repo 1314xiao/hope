@@ -1,6 +1,6 @@
 # Hope Lang SDK API 文档
 
-# docs/sdk\\\[\_api\.md\]\(\_api\.md\)
+# [SDK API 文档](sdk_api.md)
 
 ```markdown
 # Hope Lang SDK API 文档
