@@ -12,11 +12,11 @@ set LIB_MAP = [
             ["fs", "hope_fs", "FS_FUNCTIONS"],
             ["sys", "hope_sys", "SYS_FUNCTIONS"],
             ["cmd", "hope_cmd", "HOPE_CMD_EXPORTS"],
-	["tkinter", "hope_tkinter", "TKINTER_FUNCTIONS"],
-	["string", "hope_string", "STRING_FUNCTIONS"],
-	["game","hope_game", "HOPE_EXPORT"],
+			["tkinter", "hope_tkinter", "TKINTER_FUNCTIONS"],
+			["string", "hope_string", "STRING_FUNCTIONS"],
+			["game","hope_game", "HOPE_EXPORT"],
             ["ctypes","hope_ctypes", "HOPE_CTYPES"],
-	["decide","hope_decide", "HOPE_DECIDE"]
+			["decide","hope_decide", "HOPE_DECIDE"]
         ]
 /*
 "eggs": ("hope_eggs", "EGG_FUNCTIONS"),
