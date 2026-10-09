@@ -1,6 +1,12 @@
+#!/usr/bin/python
+# _*_ coding: utf-8 _*_
+# @Author: xiao hai
+# @Time: 2025/11/9 18:29
+
 from typing import List, Tuple, Union
 from lexer import Lexer, Token
 from errors import ParserError
+
 
 # AST 节点：普通节点为 (type, ...)，语句节点为 (type, line, ...)
 ASTNode = Tuple[str, Union[int, str, List['ASTNode']]]
