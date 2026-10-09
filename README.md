@@ -132,10 +132,23 @@ from hope_sdk_client import HopeSdkClient
 # 传入exe路径
 client = HopeSdkClient(r"hope.exe")
 
-client.run_code("let a = 10; show(a)")
-client.call("my_func", 1, 2, 3)
+# 执行hope源码,自定义函数
+client.run_code("""
+func my_func(a,b,c) {
+    return a+b+c
+}
+""")
+
+# 调用函数
+my=client.call("my_func", 1, 2, 3)
+print(my)
+
+# 设置全局变量
 client.set_global("name", "hope")
+
+# 读取全局变量
 val = client.get_global("name")
+print(val)
 
 client.close()
 ```
@@ -146,19 +159,20 @@ client.close()
 from hope_vm import HopeVM
 
 vm = HopeVM()
-vm.run_code('set a = 10; show(a)')
+vm.run_code('set a = 10 show(a)')
 vm.run_file("examples/hello.hope")
 
 # 注册Python原生函数供Hope调用
 vm.register_native(
-    func_name="add",
+    func_name="my_add",
     param_names=["x","y"],
     callback=lambda args: args[0] + args[1]
 )
 
-result = vm.call("my_hope_func", 1, 2, 3)
+result = vm.call("my_add", 1, 2, 3)
+print(result)
 vm.set_global("val", 999)
-print(vm.get_global("val"))
+print(vm.get_global("val")))
 ```
 
 > ⚠️ 重要限制
