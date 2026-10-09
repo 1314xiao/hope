@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 1314xiao
+Copyright (c) 2026 Xiaohai
 Portions of this project were assisted by AI‑generated code and documentation.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
