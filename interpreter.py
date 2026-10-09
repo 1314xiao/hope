@@ -1,3 +1,8 @@
+#!/usr/bin/python
+# _*_ coding: utf-8 _*_
+# @Author: xiao hai
+# @Time: 2025/11/9 18:30
+
 import sys 
 import os
 from typing import List, Tuple, Union, Dict, Optional
@@ -16,7 +21,6 @@ class Interpreter:
         self.functions: Dict[str, Union[Tuple[List[str], ASTNode], Tuple[List[str], callable]]] = {}
         self._add_builtin_functions()
         self.lib_map = self._load_lib_config()
-        self.modules = {}  # 缓存已导入的模块：模块名 -> 模块环境字典
 
     def _load_lib_config(self) -> Dict[str, Tuple[str, str]]:
         config_filename = "lib_config.hope"
@@ -53,114 +57,57 @@ class Interpreter:
             self.functions[func_name] = func_def
 
     def _load_hope_lib(self, lib_name: str):
-        """
-        动态加载 Hope 模块。
-        1. 如果 lib_name 在内置扩展库映射中，则加载 Python 扩展
-        2. 否则，从文件系统查找并加载 .hope 文件
-        """
-        # 1. 先检查内置扩展库（lib_config.hope 配置的）
-        if lib_name in self.lib_map:
-            self._load_python_extension(lib_name)
-            return
-
-        # 2. 检查是否已缓存
-        if lib_name in self.modules:
-            # 将缓存的模块环境合并到当前环境
-            for name, value in self.modules[lib_name].items():
-                if name not in self.env:  # 不覆盖已有变量
-                    self.env[name] = value
-            return
-
-        # 3. 查找 .hope 文件
-        hope_file = self._find_hope_file(lib_name)
-        if not hope_file:
-            raise InterpreterError(f"无法找到模块 '{lib_name}'（未找到 .hope 文件）")
-
-        # 4. 读取并执行模块代码（在独立环境中）
-        try:
-            with open(hope_file, 'r', encoding='utf-8') as f:
-                module_code = f.read()
-        except Exception as e:
-            raise InterpreterError(f"读取模块文件失败: {str(e)}")
-
-        # 创建独立的模块环境（继承当前环境的部分内容？为简单起见，全新环境）
-        module_env = {}
-        # 保留原始环境
-        old_env = self.env
-        self.env = module_env
-
-        try:
-            from lexer import Lexer
-            from parser import Parser
-            lexer = Lexer(module_code)
-            parser = Parser(lexer)
-            module_ast = parser.parse()
-            for stmt in module_ast[1]:
-                self._eval_stmt(stmt)
-        except Exception as e:
-            self.env = old_env
-            raise InterpreterError(f"加载模块 '{lib_name}' 失败: {str(e)}")
-
-        # 恢复当前环境
-        self.env = old_env
-
-        # 将模块中的非内置变量（排除以下）导入到当前环境
-        builtin_names = dir(__builtins__) if '__builtins__' in globals() else []
-        builtin_names.extend(['PI', 'E'])  # 预定义常量
-        for name, value in module_env.items():
-            # 排除内置变量、私有变量（以_开头）以及函数对象中的特殊属性
-            if name.startswith('_') or name in builtin_names:
-                continue
-            # 避免覆盖当前环境已有变量（可改为警告或覆盖，这里选择不覆盖）
-            if name not in self.env:
-                self.env[name] = value
-
-        # 缓存模块环境（以备后续重复导入）
-        self.modules[lib_name] = module_env
-
-    def _load_python_extension(self, lib_name: str):
-        """加载 Python 扩展（原有逻辑）"""
-        module_name, func_dict_name = self.lib_map[lib_name]
         base_path = sys._MEIPASS if hasattr(sys, '_MEIPASS') else os.path.dirname(os.path.abspath(__file__))
         sys.path.insert(0, base_path)
-        try:
-            module = __import__(module_name)
-            func_dict = getattr(module, func_dict_name)
-            for name, func_def in func_dict.items():
-                self.functions[name] = func_def
-        except ImportError:
-            lib_file = os.path.join(base_path, f"{module_name}.py")
-            if not os.path.exists(lib_file):
-                raise InterpreterError(f"扩展库文件 {module_name}.py 缺失")
-            raise InterpreterError(f"无法导入扩展库：{lib_name}（文件存在但导入失败）")
-        except AttributeError:
-            raise InterpreterError(f"扩展库 {lib_name} 格式错误，缺少 {func_dict_name} 字典")
-
-    def _find_hope_file(self, lib_name: str) -> str:
-        """
-        查找 .hope 文件，搜索顺序：
-        1. 当前工作目录
-        2. 脚本所在目录下的 hope_libs 子目录
-        3. 可执行文件所在目录下的 hope_libs 子目录（打包后）
-        """
-        # 候选路径列表
-        candidates = []
-        # 当前工作目录
-        candidates.append(os.path.join(os.getcwd(), f"{lib_name}.hope"))
-        # 脚本所在目录 / hope_libs
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        candidates.append(os.path.join(script_dir, "hope_libs", f"{lib_name}.hope"))
-        # 打包后 exe 所在目录 / hope_libs
         if hasattr(sys, '_MEIPASS'):
             exe_dir = os.path.dirname(sys.executable)
-            candidates.append(os.path.join(exe_dir, "hope_libs", f"{lib_name}.hope"))
-        # 用户可在此扩展其他路径
+        else:
+            exe_dir = os.path.dirname(os.path.abspath(__file__))
+        self.lib_root = os.path.join(exe_dir, "hope_libs")
+        sys.path.insert(0, self.lib_root)
+        ext_root = os.path.join(exe_dir, "Lib")
+        sys.path.insert(0, ext_root)
 
-        for path in candidates:
-            if os.path.exists(path):
-                return path
-        return None
-    
+        lib_map = self.lib_map
+        if lib_name in lib_map:
+            module_name, func_name = lib_map[lib_name]
+            try:
+                module = __import__(module_name)
+                func_dict = getattr(module, func_name)
+                for name, func_def in func_dict.items():
+                    self.functions[name] = func_def
+            except ImportError:
+                lib_file = os.path.join(base_path, f"{module_name}.py")
+                if not os.path.exists(lib_file):
+                    raise InterpreterError(f"扩展库文件 {module_name}.py 缺失")
+                raise InterpreterError(f"无法导入扩展库：{lib_name}（文件存在但导入失败）")
+            except AttributeError:
+                raise InterpreterError(f"扩展库 {lib_name} 格式错误，缺少 {func_name} 字典")
+        else:
+            # 尝试加载 .hope 或 .hopec 脚本库
+            lib_filename = os.path.join(ext_root, f"{lib_name}.hopec")
+            if not os.path.exists(lib_filename):
+                lib_filename = os.path.join(ext_root, f"{lib_name}.hope")
+                if not os.path.exists(lib_filename):
+                    lib_filename = f"{lib_name}.hopec"
+                    if not os.path.exists(lib_filename):
+                        lib_filename = f"{lib_name}.hope"
+                        if not os.path.exists(lib_filename):
+                            raise InterpreterError(f"库文件'{lib_filename}'不存在")
+            from lexer import Lexer
+            try:
+                with open(lib_filename, 'r', encoding='utf-8') as f:
+                    lib_code = f.read()
+                lib_lexer = Lexer(lib_code)
+                lib_parser = Parser(lib_lexer)
+                lib_ast = lib_parser.parse()
+                for stmt in lib_ast[1]:
+                    self._eval_stmt(stmt)
+            except InterpreterError as e:
+                raise InterpreterError(f"加载库'{lib_name}'失败：{str(e)}")
+            except Exception as e:
+                raise InterpreterError(f"加载库'{lib_name}'失败（非执行错误）：{str(e)}")
+
     def _eval_input(self, prompt: str, input_type: str) -> Union[int, float, str]:
         while True:
             user_input = input(prompt).strip()
