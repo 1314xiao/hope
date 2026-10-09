@@ -256,6 +256,55 @@ pyinstaller -F -i ho.ico hope.py
 
 打包产物输出至 `dist/`。
 
+## 配置全局 PATH 环境变量（Windows）
+
+### 1\. 将 `dist\hope.exe` **复制移动到固定目录**，示例路径：
+`D:\hope-bin\hope.exe`
+不要直接引用 dist 临时目录，dist 重新打包会覆盖文件。复制 exe 到专门文件夹，例如`D:\hope-bin`。
+
+### 2\. 打开环境变量：
+右键此电脑 → 属性 → 高级系统设置 → 环境变量CSDN博...
+
+### 3\. 在**用户变量 / 系统变量**找到 `Path` → 编辑 → 新建，填入文件夹路径（**不是 exe 完整路径！是 exe 所在文件夹**）
+
+```plaintext
+D:\hope-bin
+```
+
+### 4\. 全部窗口点【确定】保存。
+
+### 5\. **关闭全部已打开 CMD/PowerShell，重新新开终端**。
+
+### 6\. ✅校验是否全局生效
+
+```cmd / powershell
+D:\hope-bin
+```
+
+## 全局 hope.exe 全部命令用法（任意目录直接执行`hope`）
+
+### 1\. REPL 交互式控制台
+
+```cmd / powershell
+hope
+```
+
+等效原来 `python hope.py`，进入逐行交互模式。
+
+### 2\. 执行 .hope 脚本文件
+
+cmd / powershell
+
+任意工作目录下直接运行脚本。
+
+### 3\. 启动 STDIO‑JSON SDK 服务（子进程 SDK 模式）
+
+```cmd / powershell
+hope --sdk
+```
+
+> 标准输入输出单行 JSON 协议，供外部程序、编辑器拉起调用，对应项目文档 `hope_sdk_server.py` 服务端模式。
+
 ## 📄 License
 
 本项目使用 MIT 协议，详情见 LICENSE 文件。
