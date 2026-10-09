@@ -251,7 +251,7 @@ arr[0] = 99                       // 支持下标读写赋值
 项目自带 `hope.spec`，用于 PyInstaller 打包为独立 Windows EXE。
 
 ```bash
-pyinstaller hope.spec
+pyinstaller hope.py
 ```
 
 打包产物输出至 `dist/`。
@@ -263,5 +263,3 @@ pyinstaller hope.spec
 ## 🤝 贡献
 
 欢迎提交 Issue、PR，参与语言开发、标准库扩充与文档完善。
-
-> （注：部分内容由豆包工作 AI 生成）
