@@ -49,19 +49,19 @@ hope/
 ├── hope_sdk_server.py        # SDK服务端：stdin/stdout JSON协议
 ├── hope_sdk_client.py        # SDK客户端：HopeSdkClient类，subprocess拉起进程
 ├── hope_builtins.py          # 内置基础函数
-├── hopeglue.py               # 胶水层
+├── hopeglue/                 # hopeglue打包工具
+│   ├──hopeglue.py
+│   ├──loader.py
+│   └──glue.bat
 ├── host.py
 ├── lexer.py                  # 词法分析器
 ├── parser.py                 # 语法分析器
 ├── interpreter.py            # AST解释执行核心
 ├── errors.py                 # 自定义异常类
-├── lib_config.hope           # 标准库注册配置文件
-├── loader.py                 # 库加载器：动态加载libs下模块，映射Python函数到VM
-├── xide4.py
-├── hope.spec                 # PyInstaller打包spec
-├── hopeglue.spec
+├── lib_config.hope           # 标准库注册配置文件      
+├── xide4.py                  # Hope IDE
 ├── ho.ico                    # Windows打包图标
-├── libs/                     # ✅ 所有标准库（Python实现，映射给Hope脚本调用）
+├── hope_libs/                # ✅ 所有标准库（Python实现，映射给Hope脚本调用）
 │   ├── hope_random.py
 │   ├── hope_math.py
 │   ├── hope_time.py
@@ -92,7 +92,7 @@ Python \>= 3\.11\.9
 ```bash
 # 克隆仓库
 git clone https://github.com/1314xiao/hope.git
-cd hope1.5.2
+cd hope
 
 # 安装依赖
 pip install -r requirements.txt
@@ -240,18 +240,18 @@ arr[0] = 99                       // 支持下标读写赋值
 
 ## 📚 文档索引
 
-- \[语法文档\]\(docs/syntax\.md\)：完整语法说明、示例、版本限制
+- [语法文档](docs/syntax.md)：完整语法说明、示例、版本限制
 
-- \[SDK API\]\(docs/sdk\_api\.md\)：STDIO JSON 协议、全部 action 指令、客户端类、错误样例
+- [SDK API](docs/sdk_api.md)：STDIO JSON 协议、全部 action 指令、客户端类、错误样例
 
-- \[打包部署\]\(docs/build\.md\)：Windows EXE 打包、Termux 安卓部署、图形库打包注意事项
+- [打包部署](docs/build.md)：Windows EXE 打包、Termux 安卓部署、图形库打包注意事项
 
 ## 📦 打包部署
 
-项目自带 `hope.spec`，用于 PyInstaller 打包为独立 Windows EXE。
+项目入口 `hope.py`，用于 PyInstaller 打包为独立 Windows EXE。
 
 ```bash
-pyinstaller hope.py
+pyinstaller -F -i ho.ico hope.py
 ```
 
 打包产物输出至 `dist/`。
