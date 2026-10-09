@@ -1,3 +1,8 @@
+#!/usr/bin/python
+# _*_ coding: utf-8 _*_
+# @Author: xiao hai
+# @Time: 2025/11/9 18:21
+
 from typing import Union
 from errors import InterpreterError
 
