@@ -7,6 +7,7 @@ import sys
 import os
 import readline  # 提供命令行编辑历史功能（可选）
 
+
 # 直接导入同路径下的核心模块
 try:
     from lexer import Lexer
