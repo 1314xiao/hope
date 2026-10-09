@@ -1,0 +1,9 @@
+import hello
+show(_hello())
+show(_hello("开发者"))
+
+import eggs
+// 触发彩蛋
+show(_hope_intro())
+show(_surprise())
+
